@@ -79,7 +79,7 @@ extension JSON {
 
 extension JSON {
 
-    /// Returns a `Bool` value if it is `JSON.bool`, otherwise `nil`.
+    /// Returns a `Bool` value if it is `JSON.bool`, otherwise returns `nil`.
     public var bool: Bool? {
         if case .bool(let value) = self {
             return value
@@ -87,7 +87,7 @@ extension JSON {
         return nil
     }
 
-    /// Returns an `Dictionary` if it is `JSON.dictionary`, otherwise `nil`.
+    /// Returns an `Dictionary` if it is `JSON.dictionary`, otherwise returns `nil`.
     public var dictionary: [String: JSON]? {
         if case .dictionary(let value) = self {
             return value
@@ -95,7 +95,7 @@ extension JSON {
         return nil
     }
 
-    /// Returns an `Dictionary` if it is `JSON.array`, otherwise `nil`.
+    /// Returns an `Array` if it is `JSON.array`, otherwise returns `nil`.
     public var array: [JSON]? {
         if case .array(let value) = self {
             return value
@@ -103,7 +103,7 @@ extension JSON {
         return nil
     }
 
-    /// Returns a `Double` if it is `JSON.double` or `JSON.int`, otherwise `nil`.
+    /// Returns a `Double` if it is `JSON.double` or `JSON.int`, otherwise returns `nil`.
     public var double: Double? {
         if case .double(let value) = self {
             return value
@@ -114,7 +114,7 @@ extension JSON {
     }
 
     /// Returns a `Double` if it is `JSON.int` or `JSON.double` convertable to integer
-    /// without losing precision, otherwise `nil`.
+    /// without losing precision, otherwise returns `nil`.
     public var int: Int? {
         if case .int(let value) = self {
             return value
@@ -126,7 +126,7 @@ extension JSON {
         return nil
     }
 
-    /// Returns a `String` if it is `JSON.string`, otherwise `nil`.
+    /// Returns a `String` if it is `JSON.string`, otherwise returns `nil`.
     public var string: String? {
         if case .string(let value) = self {
             return value

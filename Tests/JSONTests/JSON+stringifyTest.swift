@@ -52,21 +52,23 @@ class JSONStringifyTests: XCTestCase {
     }
 
     func testArray() {
-        let json: JSON = [false, 0, 1.1, "2"]
+        XCTAssertEqual(JSON([Int]()).stringified(), "[]")
+        XCTAssertEqual(JSON([Int]()).stringified(pretty: true), "[]")
 
+        let json: JSON = [false, 0, 1.1, "2"]
         XCTAssertEqual(json.stringified(),
             "[false,0,1.1,\"2\"]")
-
         XCTAssertEqual(json.stringified(pretty: true),
             "[\r\n\tfalse,\r\n\t0,\r\n\t1.1,\r\n\t\"2\"\r\n]")
     }
 
     func testDictionary() {
-        let json: JSON = ["0": 0, "1.1": 1.1, "2": "2", "false": false]
+        XCTAssertEqual(JSON([String: Int]()).stringified(), "{}")
+        XCTAssertEqual(JSON([String: Int]()).stringified(pretty: true), "{}")
 
+        let json: JSON = ["0": 0, "1.1": 1.1, "2": "2", "false": false]
         XCTAssertEqual(json.stringified(),
             "{\"0\":0,\"1.1\":1.1,\"2\":\"2\",\"false\":false}")
-
         XCTAssertEqual(json.stringified(pretty: true),
             "{\r\n\t\"0\": 0,\r\n\t\"1.1\": 1.1,\r\n\t\"2\": \"2\",\r\n\t\"false\": false\r\n}")
     }

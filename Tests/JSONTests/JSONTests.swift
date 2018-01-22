@@ -78,10 +78,12 @@ class JSONTests: XCTestCase {
     }
 
     func testString() {
+        XCTAssertEqual(JSON.string("").type, .string)
         XCTAssertEqual(JSON.string("test").type, .string)
 
         XCTAssertEqual(JSON.string("test").string, "test")
         XCTAssertEqual(JSON("test").string, "test")
+        XCTAssertEqual(JSON("").string, "")
         XCTAssertNil(JSON.null.bool)
         XCTAssertNil(JSON.int(1234).string)
 

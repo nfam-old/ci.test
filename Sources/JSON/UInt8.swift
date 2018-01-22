@@ -12,9 +12,9 @@ extension UInt8 {
         if 0x30 <= self && self <= 0x39 {
             return self - UInt8(0x30)
         } else if 0x61 <= self && self <= 0x66 {
-            return self - UInt8(0x61 + 10)
+            return self - UInt8(0x61) + UInt8(10)
         } else if 0x41 <= self && self <= 0x46 {
-            return self - UInt8(0x041 + 10)
+            return self - UInt8(0x041) + UInt8(10)
         }
         return nil
     }

@@ -129,11 +129,6 @@ private class Serializer {
         // Append object-begin "[".
         buffer.append(0x7B)
 
-        if dictionary.isEmpty {
-            buffer.append(0x7D) // }
-            return
-        }
-
         // Indent in.
         level += 1
         var hasItems = false
