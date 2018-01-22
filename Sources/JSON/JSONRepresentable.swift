@@ -66,9 +66,11 @@ extension Bool: JSONRepresentable {
     ///
     /// - Returns: An instance of `JSON` where the enum case is `.bool`.
     public func toJSON() -> JSON {
-        return .bool(self)
+        return self ? jsonOfTrue : jsonOfFalse
     }
 }
+private let jsonOfTrue = JSON.bool(true)
+private let jsonOfFalse = JSON.bool(false)
 
 extension Dictionary where Value: JSONRepresentable {
     /// Generates `JSON` from an instance of `Dictionary` whose
@@ -102,9 +104,10 @@ extension Int: JSONRepresentable {
     ///
     /// - Returns: An instance of `JSON` where the enum case is `.int`.
     public func toJSON() -> JSON {
-        return .int(self)
+        return self == 0 ? jsonOfZero : .int(self)
     }
 }
+private let jsonOfZero = JSON.int(0)
 
 extension Double: JSONRepresentable {
     /// Generates `JSON` from an instance of a conforming type.

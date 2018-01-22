@@ -87,3 +87,41 @@ extension Sequence where Iterator.Element == UInt8 {
         }
     }
 }
+
+internal func utf8Length(first byte: UInt8) -> Int {
+    if byte & 0x80 == 0 {
+        return 1
+    } else if byte & 0xE0 == 0xC0 {
+        return 2
+    } else if byte & 0xF0 == 0xE0 {
+        return 3
+    } else if byte & 0xF8 == 0xF0 {
+        return 4
+    } else {
+        return 0
+    }
+}
+
+internal func utf8Validate(_ bytes: UInt8...) -> Bool {
+    switch bytes.count {
+    case 1:
+        return bytes[0] & 0x80 == 0
+    case 2:
+        let code: UInt = (UInt(bytes[0] & 0x1F) << 6) |
+            UInt(bytes[1] & 0x3F)
+        return code >= 0x80
+    case 3:
+        let code = (UInt(bytes[0] & 0x0F) << 12) |
+            (UInt(bytes[1] & 0x3F) << 6) |
+            UInt(bytes[2] & 0x3F)
+        return (0x800 <= code && code < 0xD800) || (0xDFFF < code && code <= 0xFFFF)
+    case 4:
+        let code = (UInt(bytes[0] & 0x07) << 18) |
+            (UInt(bytes[1] & 0x3F) << 12) |
+            (UInt(bytes[2] & 0x3F) << 6) |
+            UInt(bytes[3] & 0x3F)
+        return 0x10000 <= code && code < 0x10FFFF
+    default:
+        return false
+    }
+}

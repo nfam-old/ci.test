@@ -14,5 +14,6 @@ import XCTest
 XCTMain([
     testCase(JSONTests.allTests),
     testCase(JSONExpressibleTests.allTests),
-    testCase(JSONStringifyTests.allTests)
+    testCase(JSONStringifyTests.allTests),
+    testCase(JSONParseTests.allTests)
 ])
