@@ -31,6 +31,9 @@ extension JSON: ExpressibleByFloatLiteral {
 }
 
 extension JSON: ExpressibleByStringLiteral {
+    public typealias UnicodeScalarLiteralType = String
+    public typealias ExtendedGraphemeClusterLiteralType = String
+
     public init(stringLiteral value: String) {
         self = .string(value)
     }
