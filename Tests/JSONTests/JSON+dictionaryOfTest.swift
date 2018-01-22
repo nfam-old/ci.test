@@ -92,3 +92,13 @@ class JSONDictionaryOfTests: XCTestCase {
         XCTAssertNil(json2.dictionaryOfString)
     }
 }
+
+private extension Dictionary {
+    func mapValues<T>(_ transform: (Value)->T) -> Dictionary<Key,T> {
+        var dict = [Key: T]()
+        for (k, v) in self {
+            dict[k] = transform(v)
+        }
+        return dict
+    }
+}
