@@ -88,6 +88,9 @@ class JSONTests: XCTestCase {
         XCTAssertEqual(JSON(nil as String?).type, .null)
         XCTAssertEqual(JSON("test").description, "\"test\"")
 
+        enum TestEnum: String {
+            case red = "redColor"
+        }
         XCTAssertEqual(JSON(TestEnum.red).string, "redColor")
         XCTAssertEqual(JSON(nil as TestEnum?).type, .null)
     }
@@ -131,8 +134,4 @@ class JSONTests: XCTestCase {
         XCTAssertEqual(JSON(nil as [String: JSON]?).type, .null)
         XCTAssertEqual(JSON(["1": "1"]).description, "[\"1\": \"1\"]")
     }
-}
-
-enum TestEnum: String {
-    case red = "redColor"
 }
