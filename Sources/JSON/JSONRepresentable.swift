@@ -16,8 +16,18 @@ public protocol JSONRepresentable {
     func toJSON() -> JSON
 }
 
-extension JSON {
+/// A protocol to facilitate initializing an instance from `JSON`.
+public protocol JSONInitializable {
+    /// Initializes an instance of a conforming type from `JSON`.
+    ///
+    /// - Paramater json: Input `JSON` for initialization.
+    init(json: JSON) throws
+}
 
+/// A protocol to facilitate converting back and forth between `JSON` and a conforming type.
+public protocol JSONConvertible: JSONRepresentable, JSONInitializable {}
+
+extension JSON {
     /// Creates a `JSON` from an instance of a conforming type.
     ///
     /// - Parameter value: an instance of conforming type.

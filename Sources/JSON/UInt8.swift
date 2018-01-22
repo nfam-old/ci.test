@@ -39,7 +39,7 @@ extension UInt8 {
 
 extension Array where Element == UInt8 {
     /// Adds a unicode scalar to the builder in UTF8 encoding.
-    mutating func append(unicode scalar: UInt) {
+    internal mutating func append(unicode scalar: UInt) {
         if scalar <= 0x7F {
             append(UInt8(scalar))
         } else if scalar <= 0x7FF {
@@ -63,7 +63,7 @@ extension Array where Element == UInt8 {
 
 extension Sequence where Iterator.Element == UInt8 {
     /// Converts a slice of bytes to string.
-    func toString() -> String {
+    internal func toString() -> String {
         let array = Array(self) + [0]
         return array.withUnsafeBufferPointer { buffer in
             let pointer = buffer.baseAddress!

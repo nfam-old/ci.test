@@ -232,6 +232,7 @@ private class Serializer {
                     buffer.append(0x5C)
                 default:
                     buffer.append(byte)
+                }
             }
         }
         buffer.append(0x22) // "

@@ -8,7 +8,7 @@
 @testable import JSON
 import XCTest
 
-class JSONSerializeTests: XCTestCase {
+class JSONStringifyTests: XCTestCase {
 
     static var allTests = [
         ("testNull", testNull),
