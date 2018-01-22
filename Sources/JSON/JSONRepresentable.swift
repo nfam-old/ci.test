@@ -123,9 +123,10 @@ extension String: JSONRepresentable {
     ///
     /// - Returns: An instance of `JSON` where the enum case is `.string`.
     public func toJSON() -> JSON {
-        return .string(self)
+        return self == "" ? jsonOfEmptyString : .string(self)
     }
 }
+private let jsonOfEmptyString = JSON.string("")
 
 extension RawRepresentable where RawValue: JSONRepresentable {
     /// Generates `JSON` from an instance of a conforming type.
