@@ -1,0 +1,22 @@
+environment:
+  matrix:
+    - nodejs_version: "6"
+    - nodejs_version: "7"
+    - nodejs_version: "8"
+    - nodejs_version: "9"
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install
+
+build:
+  - npm run tslint
+  - npm run build
+  - npm run minify
+
+test_script:
+  - node --version
+  - npm --version
+  - npm test
+
+version: "{build}"
