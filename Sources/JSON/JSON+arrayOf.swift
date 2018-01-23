@@ -10,73 +10,73 @@ extension JSON {
     /// Returns an `Array` of `Bool` if it is `JSON.array` and
     /// every value within is `JSON.bool`, otherwise returns `nil`.
     public var arrayOfBool: [Bool]? {
-        guard let jsons = self.array else {
+        guard case .array(let array) = self else {
             return nil
         }
-        var values = Array(repeating: false, count: jsons.count)
+        var result = Array(repeating: false, count: array.count)
         var index = 0
-        for json in jsons {
-            guard let value = json.bool else {
+        for item in array {
+            guard let value = item.toJSON().bool else {
                 return nil
             }
-            values[index] = value
+            result[index] = value
             index += 1
         }
-        return values
+        return result
     }
 
     /// Returns an `Array` of `Int` if it is `JSON.array` and
     /// every value within is `JSON.int` or `JSON.double` onvertable
     /// to integer without losing precision, otherwise returns `nil`.
     public var arrayOfInt: [Int]? {
-        guard let jsons = self.array else {
+        guard case .array(let array) = self else {
             return nil
         }
-        var values = Array(repeating: 0, count: jsons.count)
+        var result = Array(repeating: 0, count: array.count)
         var index = 0
-        for json in jsons {
-            guard let value = json.int else {
+        for item in array {
+            guard let value = item.toJSON().int else {
                 return nil
             }
-            values[index] = value
+            result[index] = value
             index += 1
         }
-        return values
+        return result
     }
 
     /// Returns an `Array` of `Double` if it is `JSON.array` and
     // every value within is`JSON.double` or `JSON.int`, otherwise returns `nil`.
     public var arrayOfDouble: [Double]? {
-        guard let jsons = self.array else {
+        guard case .array(let array) = self else {
             return nil
         }
-        var values = Array(repeating: 0.0, count: jsons.count)
+        var result = Array(repeating: 0.0, count: array.count)
         var index = 0
-        for json in jsons {
-            guard let value = json.double else {
+        for item in array {
+            guard let value = item.toJSON().double else {
                 return nil
             }
-            values[index] = value
+            result[index] = value
             index += 1
         }
-        return values
+        return result
     }
 
     /// Returns an `Array` of `String` if it is `JSON.array` and
     /// every value within is `JSON.string`, otherwise returns `nil`.
     public var arrayOfString: [String]? {
-        guard let jsons = self.array else {
+        guard case .array(let array) = self else {
             return nil
         }
-        var values = Array(repeating: "", count: Int(jsons.count))
+        var result = Array(repeating: "", count: Int(array.count))
         var index = 0
-        for json in jsons {
-            guard let value = json.string else {
+        for item in array {
+            guard let value = item.toJSON().string else {
                 return nil
             }
-            values[index] = value
+            result[index] = value
             index += 1
         }
-        return values
+        return result
     }
 }

@@ -50,7 +50,7 @@ private class Serializer {
     private func populate(json: JSON) {
         switch json {
 
-        case .null:
+        case .undefined, .null:
             buffer.append(0x6E)
             buffer.append(0x75)
             buffer.append(0x6C)
@@ -87,7 +87,7 @@ private class Serializer {
         }
     }
 
-    private func populate(array: [JSON]) {
+    private func populate(array: [JSONRepresentable]) {
 
         // Append array-begin "[".
         buffer.append(0x5B)
@@ -111,7 +111,7 @@ private class Serializer {
             }
 
             // Append value.
-            populate(json: element)
+            populate(json: element.toJSON())
         }
 
         // Indent out.
@@ -124,7 +124,7 @@ private class Serializer {
         buffer.append(0x5D)
     }
 
-    private func populate(dictionary: [String: JSON]) {
+    private func populate(dictionary: [String: JSONRepresentable]) {
 
         // Append object-begin "[".
         buffer.append(0x7B)
@@ -158,7 +158,7 @@ private class Serializer {
             }
 
             // Append value.
-            populate(json: dictionary[name]!)
+            populate(json: dictionary[name]!.toJSON())
         }
 
         // Indent out.

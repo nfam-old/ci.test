@@ -8,17 +8,21 @@
 
 /// An enum to describe the structure of JSON.
 public enum JSON {
+
+    /// Denotes a value that does not exits, retrived via subscript to array or dictionary.
+    case undefined
+
     /// Denotes null.
     case null
 
     /// Denotes a boolean with an associated value of `Swift.Bool`.
     case bool(Bool)
 
-     /// Denotes a dictionary aka. object in `RFC 7159`` with an associated value of `[Swift.String: JSON]`
-    case dictionary([String: JSON])
+     /// Denotes a dictionary with an associated value of `[Swift.String: JSONRepresentable]`.
+    case dictionary([String: JSONRepresentable])
 
-    /// Denotes an array with an associated value of `[JSON]`
-    case array([JSON])
+    /// Denotes an array with an associated value of `[JSONRepresentable]`.
+    case array([JSONRepresentable])
 
     /// Denotes a number with an associated value of `Swift.Double`.
     case double(Double)
@@ -34,6 +38,9 @@ extension JSON {
 
     /// An enum to describe the value data type of JSON.
     public enum ValueType {
+        /// undefined
+        case undefined
+
         /// null
         case null
 
@@ -59,6 +66,8 @@ extension JSON {
     /// Returns the value data type of value of JSON.
     public var type: ValueType {
         switch self {
+        case .undefined:
+            return .undefined
         case .null:
             return .null
         case .dictionary:
@@ -82,22 +91,6 @@ extension JSON {
     /// Returns a `Bool` value if it is `JSON.bool`, otherwise returns `nil`.
     public var bool: Bool? {
         if case .bool(let value) = self {
-            return value
-        }
-        return nil
-    }
-
-    /// Returns an `Dictionary` if it is `JSON.dictionary`, otherwise returns `nil`.
-    public var dictionary: [String: JSON]? {
-        if case .dictionary(let value) = self {
-            return value
-        }
-        return nil
-    }
-
-    /// Returns an `Array` if it is `JSON.array`, otherwise returns `nil`.
-    public var array: [JSON]? {
-        if case .array(let value) = self {
             return value
         }
         return nil
@@ -133,9 +126,6 @@ extension JSON {
         }
         return nil
     }
-}
-
-extension JSON {
 
     /// Returns an element at a given index if it is `JSON.array`.
     ///
@@ -145,13 +135,13 @@ extension JSON {
     /// - Returns: If it is `JSON.array` and the given `index` is within the range, then
     ///   returns the element at the given `index`, otherwise retuns `JSON.null`.
     public subscript(index: Int) -> JSON {
-        guard let array = self.array else {
-            return JSON.null
+        guard case .array(let array) = self else {
+            return JSON.undefined
         }
         guard 0 <= index, index < array.count else {
-            return JSON.null
+            return JSON.undefined
         }
-        return array[index]
+        return array[index].toJSON()
     }
 
     /// Returns an value at a given key if it is `JSON.dictionary`.
@@ -161,13 +151,13 @@ extension JSON {
     /// - Returns: If it is `JSON.dictionary` and the given `key` exits, then
     ///   returns the value at the given key, otherwise retuns `JSON.null`.
     public subscript(key: String) -> JSON {
-        guard let dictionary = self.dictionary else {
-            return JSON.null
+        guard case .dictionary(let dictionary) = self else {
+            return JSON.undefined
         }
         guard let value = dictionary[key] else {
-            return JSON.null
+            return JSON.undefined
         }
-        return value
+        return value.toJSON()
     }
 }
 
@@ -176,6 +166,8 @@ extension JSON: CustomStringConvertible, CustomDebugStringConvertible {
     /// Represents itself int text.
     public var description: String {
         switch self {
+        case .undefined:
+            return "undefined"
         case .null:
             return "null"
         case .dictionary(let value):

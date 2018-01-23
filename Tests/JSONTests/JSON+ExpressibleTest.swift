@@ -21,8 +21,6 @@ class JSONExpressibleTests: XCTestCase {
         XCTAssertNil(json["null"].int)
         XCTAssertNil(json["null"].double)
         XCTAssertNil(json["null"].string)
-        XCTAssertNil(json["null"].array)
-        XCTAssertNil(json["null"].dictionary)
         XCTAssertEqual(json["string1"].string, "Foo Bar")
         XCTAssertEqual(json["string2"].string, "\" \t \n \r \\ \u{2665}")
         XCTAssertEqual(json["bool"].bool, true)

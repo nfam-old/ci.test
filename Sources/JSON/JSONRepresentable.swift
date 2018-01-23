@@ -16,18 +16,16 @@ public protocol JSONRepresentable {
     func toJSON() -> JSON
 }
 
-/// A protocol to facilitate initializing an instance from `JSON`.
-public protocol JSONInitializable {
-    /// Initializes an instance of a conforming type from `JSON`.
-    ///
-    /// - Paramater json: Input `JSON` for initialization.
-    init(json: JSON) throws
-}
-
-/// A protocol to facilitate converting back and forth between `JSON` and a conforming type.
-public protocol JSONConvertible: JSONRepresentable, JSONInitializable {}
-
 extension JSON {
+    /// Creates a `JSON` from an instance of a conforming type.
+    ///
+    /// - Parameter value: an instance of conforming type.
+    ///
+    /// - Returns: An instance of `JSON`.
+    public init<T>(_ value: T) where T: JSONRepresentable {
+        self = value.toJSON()
+    }
+
     /// Creates a `JSON` from an instance of a conforming type.
     ///
     /// - Parameter value: an instance of conforming type.
@@ -36,19 +34,61 @@ extension JSON {
     public init<T>(_ value: T?) where T: JSONRepresentable {
         self = value?.toJSON() ?? JSON.null
     }
+}
+
+extension JSON {
+    /// Creates a `JSON` from an instance of a conforming type.
+    ///
+    /// - Parameter value: an instance of conforming type.
+    ///
+    /// - Returns: An instance of `JSON`.
+    public init<T>(_ value: [T]) where T: JSONRepresentable {
+        self = value.toJSON()
+    }
 
     /// Creates a `JSON` from an instance of a conforming type.
     ///
+    /// - Parameter value: an instance of conforming type.
+    ///
     /// - Returns: An instance of `JSON`.
-    public init<T>(_ array: [T]?) where T: JSONRepresentable {
-        self = array?.toJSON() ?? JSON.null
+    public init<T>(_ value: [T]?) where T: JSONRepresentable {
+        self = value?.toJSON() ?? JSON.null
+    }
+}
+
+extension JSON {
+    /// Creates a `JSON` from an instance of a conforming type.
+    ///
+    /// - Parameter value: an instance of conforming type.
+    ///
+    /// - Returns: An instance of `JSON`.
+    public init<T>(_ value: [String: T]) where T: JSONRepresentable {
+        self = value.toJSON()
+    }
+
+    /// Creates a `JSON` from an instance of a conforming type.
+    ///
+    /// - Parameter value: an instance of conforming type.
+    ///
+    /// - Returns: An instance of `JSON`.
+    public init<T>(_ value: [String: T]?) where T: JSONRepresentable {
+        self = value?.toJSON() ?? JSON.null
+    }
+}
+
+extension JSON {
+    /// Creates a `JSON` from an instance of a conforming type.
+    ///
+    /// - Returns: An instance of `JSON`.
+    public init<T>(_ value: T) where T: RawRepresentable, T.RawValue: JSONRepresentable {
+        self = value.toJSON()
     }
 
     /// Creates a `JSON` from an instance of a conforming type.
     ///
     /// - Returns: An instance of `JSON`.
-    public init<T>(_ dictionary: [String: T]?) where T: JSONRepresentable {
-        self = dictionary?.toJSON() ?? JSON.null
+    public init<T>(_ value: T?) where T: RawRepresentable, T.RawValue: JSONRepresentable {
+        self = value?.toJSON() ?? JSON.null
     }
 }
 
@@ -69,35 +109,6 @@ extension Bool: JSONRepresentable {
         return self ? jsonOfTrue : jsonOfFalse
     }
 }
-private let jsonOfTrue = JSON.bool(true)
-private let jsonOfFalse = JSON.bool(false)
-
-extension Dictionary where Value: JSONRepresentable {
-    /// Generates `JSON` from an instance of `Dictionary` whose
-    /// keys are `String` and values conform to `JSONRepresentable`.
-    ///
-    /// - Returns: An instance of `JSON` where the enum case is `.dictionary`.
-    public func toJSON() -> JSON {
-        var jsonDictionary = [String: JSON]()
-
-        for (k, v) in self {
-            let key = String(describing: k)
-            jsonDictionary[key] = v.toJSON()
-        }
-
-        return .dictionary(jsonDictionary)
-    }
-}
-
-extension Array where Element: JSONRepresentable {
-    /// Generates `JSON` from an instance of `Array` whose elements conform to `JSONRepresentable`.
-    ///
-    /// - Returns: An instance of `JSON` where the enum case is `.array`.
-    public func toJSON() -> JSON {
-        let arrayOfJSON = self.map { $0.toJSON() }
-        return .array(arrayOfJSON)
-    }
-}
 
 extension Int: JSONRepresentable {
     /// Generates `JSON` from an instance of a conforming type.
@@ -107,7 +118,6 @@ extension Int: JSONRepresentable {
         return self == 0 ? jsonOfZero : .int(self)
     }
 }
-private let jsonOfZero = JSON.int(0)
 
 extension Double: JSONRepresentable {
     /// Generates `JSON` from an instance of a conforming type.
@@ -126,7 +136,25 @@ extension String: JSONRepresentable {
         return self == "" ? jsonOfEmptyString : .string(self)
     }
 }
-private let jsonOfEmptyString = JSON.string("")
+
+extension Array where Element: JSONRepresentable {
+    /// Generates `JSON` from an instance of `Array` whose elements conform to `JSONRepresentable`.
+    ///
+    /// - Returns: An instance of `JSON` where the enum case is `.array`.
+    public func toJSON() -> JSON {
+        return .array(self)
+    }
+}
+
+extension Dictionary where Key == String, Value: JSONRepresentable {
+    /// Generates `JSON` from an instance of `Dictionary` whose
+    /// keys are `String` and values conform to `JSONRepresentable`.
+    ///
+    /// - Returns: An instance of `JSON` where the enum case is `.dictionary`.
+    public func toJSON() -> JSON {
+        return .dictionary(self)
+    }
+}
 
 extension RawRepresentable where RawValue: JSONRepresentable {
     /// Generates `JSON` from an instance of a conforming type.
@@ -137,11 +165,7 @@ extension RawRepresentable where RawValue: JSONRepresentable {
     }
 }
 
-extension JSON {
-    /// Creates a `JSON` from an instance of a conforming type.
-    ///
-    /// - Returns: An instance of `JSON`.
-    public init<T>(_ item: T?) where T: RawRepresentable, T.RawValue: JSONRepresentable {
-        self = item?.toJSON() ?? JSON.null
-    }
-}
+private let jsonOfTrue = JSON.bool(true)
+private let jsonOfFalse = JSON.bool(false)
+private let jsonOfZero = JSON.int(0)
+private let jsonOfEmptyString = JSON.string("")

@@ -10,65 +10,65 @@ extension JSON {
     /// Returns an `Dictionary` of `Bool` if it is `JSON.dictionary` and
     /// every value within is `JSON.bool`, otherwise returns `nil`.
     public var dictionaryOfBool: [String: Bool]? {
-        guard let djsons = self.dictionary else {
+        guard case .dictionary(let dictionary) = self else {
             return nil
         }
-        var dvalues = [String: Bool](minimumCapacity: djsons.count)
-        for (key, json) in djsons {
-            guard let value = json.bool else {
+        var result = [String: Bool](minimumCapacity: dictionary.count)
+        for (key, item) in dictionary {
+            guard let value = item.toJSON().bool else {
                 return nil
             }
-            dvalues[key] = value
+            result[key] = value
         }
-        return dvalues
+        return result
     }
 
     /// Returns an `Dictionary` of `Int` if it is `JSON.dictionary` and
     /// every value within is `JSON.int` or `JSON.double` onvertable
     /// to integer without losing precision, otherwise returns `nil`.
     public var dictionaryOfInt: [String: Int]? {
-        guard let djsons = self.dictionary else {
+        guard case .dictionary(let dictionary) = self else {
             return nil
         }
-        var dvalues = [String: Int](minimumCapacity: djsons.count)
-        for (key, json) in djsons {
-            guard let value = json.int else {
+        var result = [String: Int](minimumCapacity: dictionary.count)
+        for (key, item) in dictionary {
+            guard let value = item.toJSON().int else {
                 return nil
             }
-            dvalues[key] = value
+            result[key] = value
         }
-        return dvalues
+        return result
     }
 
     /// Returns an `Dictionary` of `Double` if it is `JSON.dictionary` and
     // every value within is`JSON.double` or `JSON.int`, otherwise returns `nil`.
     public var dictionaryOfDouble: [String: Double]? {
-        guard let djsons = self.dictionary else {
+        guard case .dictionary(let dictionary) = self else {
             return nil
         }
-        var dvalues = [String: Double](minimumCapacity: djsons.count)
-        for (key, json) in djsons {
-            guard let value = json.double else {
+        var result = [String: Double](minimumCapacity: dictionary.count)
+        for (key, item) in dictionary {
+            guard let value = item.toJSON().double else {
                 return nil
             }
-            dvalues[key] = value
+            result[key] = value
         }
-        return dvalues
+        return result
     }
 
     /// Returns an `Dictionary` of `String` if it is `JSON.dictionary` and
     /// every value within is `JSON.string`, otherwise returns `nil`.
     public var dictionaryOfString: [String: String]? {
-        guard let djsons = self.dictionary else {
+        guard case .dictionary(let dictionary) = self else {
             return nil
         }
-        var dvalues = [String: String](minimumCapacity: djsons.count)
-        for (key, json) in djsons {
-            guard let value = json.string else {
+        var result = [String: String](minimumCapacity: dictionary.count)
+        for (key, item) in dictionary {
+            guard let value = item.toJSON().string else {
                 return nil
             }
-            dvalues[key] = value
+            result[key] = value
         }
-        return dvalues
+        return result
     }
 }

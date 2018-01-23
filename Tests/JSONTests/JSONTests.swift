@@ -103,14 +103,11 @@ class JSONTests: XCTestCase {
 
         XCTAssertEqual(json.type, .array)
 
-        XCTAssertNotNil(json.array)
-        XCTAssertEqual(json.array?[0].int, 1)
-        XCTAssertEqual(json.array?[1].string, "2")
         XCTAssertEqual(json[0].int, 1)
         XCTAssertEqual(json[1].string, "2")
-        XCTAssertEqual(json[-1].type, .null)
-        XCTAssertEqual(json[2].type, .null)
-        XCTAssertEqual(JSON(1)[0].type, .null)
+        XCTAssertEqual(json[-1].type, .undefined)
+        XCTAssertEqual(json[2].type, .undefined)
+        XCTAssertEqual(JSON(1)[0].type, .undefined)
 
         XCTAssertEqual(JSON(nil as [JSON]?).type, .null)
         XCTAssertEqual(json.description, "[1, \"2\"]")
@@ -125,13 +122,10 @@ class JSONTests: XCTestCase {
 
         XCTAssertEqual(json.type, .dictionary)
 
-        XCTAssertNotNil(json.dictionary)
-        XCTAssertEqual(json.dictionary?["1"]?.int, 1)
-        XCTAssertEqual(json.dictionary?["2"]?.string, "2")
         XCTAssertEqual(json["1"].int, 1)
         XCTAssertEqual(json["2"].string, "2")
         XCTAssertNil(json["3"].string)
-        XCTAssertEqual(JSON(1)["1"].type, .null)
+        XCTAssertEqual(JSON(1)["1"].type, .undefined)
 
         XCTAssertEqual(JSON(nil as [String: JSON]?).type, .null)
         XCTAssertEqual(JSON(["1": "1"]).description, "[\"1\": \"1\"]")
