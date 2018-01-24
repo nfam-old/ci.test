@@ -78,7 +78,7 @@
         "mocha-no-side-effect-code": true,
         "mocha-unneeded-done": true,
         "new-parens": true,
-        "no-angle-bracket-type-assertion": false,
+        "no-angle-bracket-type-assertion": true,
         "no-any": false,
         "no-arg": true,
         "no-backbone-get-set-outside-model": true,
@@ -213,13 +213,13 @@
         "prefer-function-over-method": false,
         "prefer-method-signature": true,
         "prefer-template": false,
-        "prefer-type-cast": true,
+        "prefer-type-cast": false,
         "strict-type-predicates": false,
         "promise-function-async": false,
         "promise-must-complete": true,
         "quotemark": [
             true,
-            "single"
+            "double"
         ],
         "radix": false,
         "react-a11y-anchors": true,

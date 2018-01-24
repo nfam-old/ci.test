@@ -1,7 +1,6 @@
-# Simex
-### Simple Expression for Text Extraction. JavaScript Impementation.
-
-[![npm][npm-badge]][npm-url] ![license][license-badge]
+# Simex [![npm][npm-badge]][npm-url] ![license][license-badge]
+> Simple Expression for Text Extraction.
+> JavaScript Impementation.
 
 |          | **Status**                                     |
 |---       |:---:                                           |

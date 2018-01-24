@@ -1,0 +1,50 @@
+/**
+ * @license
+ * Copyright (c) 2015 Ninh Pham <nfam.dev@gmail.com>
+ *
+ * Use of this source code is governed by The MIT license.
+ */
+
+export class AtError extends Error {
+    public at: string;
+
+    public constructor(message: string, at?: string) {
+        super(message);
+        this.at = at || "";
+    }
+}
+
+export function addPrefixAt(error: any, prefix: string) {
+    if (typeof error.at === "string" && typeof error.message === "string" && prefix !== "") {
+        error.at = error.at !== "" ? (prefix + "." + error.at) : prefix;
+    }
+}
+
+export function addMessageAt(error: any) {
+    if (typeof error.at === "string" && typeof error.message === "string") {
+        if (error.at !== "") {
+            error.message += " @ " + error.at;
+        }
+    }
+}
+
+export const messages = {
+    list: "Property \"list\" must be an object.",
+    has: "Property \"has\" must be a string.",
+    dictionary: "Property \"dictionary\" must be an object.",
+    dictionaryValue: "Member value of dictionary must be an object.",
+    slice: "Property \"slice\" must be an object.",
+    expression: "Expression must be an object.",
+    prefix: "Property \"prefix\" must be either a string or an array of strings.",
+    process: "Property \"process\" must be a string in format \"function[:args]\", args is optional.",
+    processUndefined: "Function is not found in processors.",
+    required: "Property \"required\" must be boolean or a non-empty string.",
+    backward: "Property \"backward\" must be boolean.",
+    separatorMissing: "Property \"separator\" is missing.",
+    separator: "Property \"separator\" must be either a non-empty string or an array of non-empty strings.",
+    subexpressions: "Only one of slice, array, and dictionary shall be defined.",
+    suffix: "Property \"suffix\" must be either a string or an array of strings.",
+    trim: "Property \"trim\" must be boolean.",
+    between: "Property \"between\" must be an object.",
+    unmatch: "Provided input does not match the expression."
+};
