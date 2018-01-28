@@ -27,7 +27,6 @@ script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       swift --version;
       swift package --version;
-      swift package generate-xcodeproj --enable-code-coverage;
       xcodebuild -scheme $project-Package -sdk macosx -configuration Release -quiet build;
       xcodebuild -scheme $project-Package -sdk macosx -configuration Release -enableCodeCoverage YES test;
     fi;
@@ -36,6 +35,6 @@ script:
     fi;
 after_success:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      slather coverage --show      --scheme $project-Package --workspace $project.xcodeproj/project.xcworkspace $project.xcodeproj;
-      slather coverage --coveralls --scheme $project-Package --workspace $project.xcodeproj/project.xcworkspace $project.xcodeproj;
+      slather coverage --show      --scheme $project-Package $project.xcodeproj;
+      slather coverage --coveralls --scheme $project-Package $project.xcodeproj;
     fi;
