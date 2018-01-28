@@ -25,17 +25,17 @@ before_install:
     fi;
 script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      swift package generate-xcodeproj --enable-code-coverage;;
-      open $project.xcodeproj;;
-      xcodebuild -scheme project-Package -sdk macosx -configuration Release -enableCodeCoverage YES test;;
-      slather coverage --show --scheme $project-Package $project.xcodeproj;;
-      slather coverage --scheme $PROJECT-Package --coveralls $project.xcodeproj;;
+      swift package generate-xcodeproj --enable-code-coverage;
+      open $project.xcodeproj;
+      xcodebuild -scheme project-Package -sdk macosx -configuration Release -enableCodeCoverage YES test;
+      slather coverage --show --scheme $project-Package $project.xcodeproj;
+      slather coverage --scheme $PROJECT-Package --coveralls $project.xcodeproj;
     fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       docker run -v $(pwd):/package -w /package swift:$swift /bin/sh -c "swift test";
     fi;
 after_success:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      slather coverage --show --scheme $project-Package $project.xcodeproj;;
-      slather coverage --scheme $PROJECT-Package --coveralls $project.xcodeproj;;
+      slather coverage --show --scheme $project-Package $project.xcodeproj;
+      slather coverage --scheme $PROJECT-Package --coveralls $project.xcodeproj;
     fi;
