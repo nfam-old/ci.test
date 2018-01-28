@@ -39,3 +39,4 @@ after_success:
       slather coverage --show      --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
       slather coverage --coveralls --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
     fi;
+
