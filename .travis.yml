@@ -15,7 +15,7 @@ matrix:
     - os: osx
       osx_image: xcode9.2
       language: objective-c
-      env: swift=4.0, project=Simex
+      env: project=Simex
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       gem install slather --no-ri --no-rdoc;
@@ -27,14 +27,15 @@ script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       swift --version;
       swift package --version;
-      xcodebuild -scheme $project-Package -sdk macosx -configuration Release -quiet -enableCodeCoverage YES  build-for-testing;
-      xcodebuild -scheme $project-Package -sdk macosx -configuration Release -enableCodeCoverage YES test-without-building;
+      swift package generate-xcodeproj --enable-code-coverage;
+      xcodebuild -scheme $project-Package -sdk macosx -configuration Release -derivedDataPath build -enableCodeCoverage YES -quiet build-for-testing;
+      xcodebuild -scheme $project-Package -sdk macosx -configuration Release -derivedDataPath build -enableCodeCoverage YES test-without-building;
     fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       docker run -v $(pwd):/package -w /package swift:$swift /bin/sh -c "swift test";
     fi;
 after_success:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      slather coverage --show      --scheme $project-Package --workspace $project.xcodeproj/project.xcworkspace $project.xcodeproj;
-      slather coverage --coveralls --scheme $project-Package --workspace $project.xcodeproj/project.xcworkspace $project.xcodeproj;
+      slather coverage --show      --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
+      slather coverage --coveralls --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
     fi;
