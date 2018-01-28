@@ -1,10 +1,41 @@
-language: node_js
-node_js:
-  - "stable"
-install:
-  - npm install
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+      services: docker
+      language: generic
+      env: swift=latest
+    - os: linux
+      dist: trusty
+      sudo: required
+      services: docker
+      language: generic
+      env: swift=4.0
+    - os: osx
+      osx_image: xcode9.2
+      language: objective-c
+      env: swift=4.0, project=Simex
+before_install:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      gem install slather --no-ri --no-rdoc;
+    fi;
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      docker pull swift:$swift;
+    fi;
 script:
-  - npm run tslint
-  - npm run build
-  - npm run minify
-  - npm run test
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      swift package generate-xcodeproj --enable-code-coverage;;
+      open $project.xcodeproj;;
+      xcodebuild -scheme project-Package -sdk macosx -configuration Release -enableCodeCoverage YES test;;
+      slather coverage --show --scheme $project-Package $project.xcodeproj;;
+      slather coverage --scheme $PROJECT-Package --coveralls $project.xcodeproj;;
+    fi;
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      docker run -v $(pwd):/package -w /package swift:$swift /bin/sh -c "swift test";
+    fi;
+after_success:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      slather coverage --show --scheme $project-Package $project.xcodeproj;;
+      slather coverage --scheme $PROJECT-Package --coveralls $project.xcodeproj;;
+    fi;
