@@ -36,6 +36,6 @@ script:
     fi;
 after_success:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      slather coverage --show --scheme $project-Package $project.xcodeproj;
-      slather coverage --scheme $project-Package --coveralls $project.xcodeproj;
+      slather coverage --show      --scheme $project-Package --workspace $project.xcodeproj/project.xcworkspace $project.xcodeproj;
+      slather coverage --coveralls --scheme $project-Package --workspace $project.xcodeproj/project.xcworkspace $project.xcodeproj;
     fi;
