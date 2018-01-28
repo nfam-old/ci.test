@@ -28,7 +28,7 @@ script:
       swift --version;
       swift package --version;
       swift package generate-xcodeproj --enable-code-coverage;
-      open $project.xcodeproj;
+      xcodebuild -scheme $project-Package -sdk macosx -configuration Release -quiet build;
       xcodebuild -scheme $project-Package -sdk macosx -configuration Release -enableCodeCoverage YES test;
     fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
