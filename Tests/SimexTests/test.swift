@@ -7,8 +7,8 @@ let processors: Processors = [
         guard let radix = Int(args ?? "10", radix: 10) else {
             throw TestError(description: "Invalid radix for process \"int\"")
         }
-        let index = input.index { c in
-            return !["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(c)
+        let index = input.index { char in
+            return !["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].contains(char)
         }
         let text = input[input.startIndex ..< index]
         guard let value = Int(text, radix: radix) else {
@@ -17,8 +17,8 @@ let processors: Processors = [
         return String(value)
     },
     "float": { input, args in
-        let index = input.index { c in
-            return !["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."].contains(c)
+        let index = input.index { char in
+            return !["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."].contains(char)
         } ?? input.endIndex
         let text = input[input.startIndex ..< index]
         guard let value = Double(text) else {

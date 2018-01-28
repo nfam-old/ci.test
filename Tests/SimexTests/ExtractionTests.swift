@@ -1,4 +1,4 @@
-// swiftlint:disable file_length
+// swiftlint:disable superfluous_disable_command line_length file_length
 import XCTest
 import Foundation
 @testable import Simex

@@ -102,7 +102,7 @@ function functionContent(json, file) {
         allTests[allTests.length - 1] = last.substring(0, last.length - 1);
     }
 
-    let file = "// swiftlint:disable file_length"
+    let file = "// swiftlint:disable superfluous_disable_command line_length file_length"
         + "\nimport XCTest"
         + "\nimport Foundation"
         + "\n@testable import Simex"

@@ -19,15 +19,16 @@ matrix:
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       gem install slather --no-ri --no-rdoc;
+      swift --version;
+      swift package --version;
+      swift package generate-xcodeproj --enable-code-coverage;
     fi;
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       docker pull swift:$swift;
     fi;
 script:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      swift --version;
-      swift package --version;
-      swift package generate-xcodeproj --enable-code-coverage;
+      swiftlint;
       xcodebuild -scheme $project-Package -sdk macosx -configuration Release -derivedDataPath build -enableCodeCoverage YES -quiet build-for-testing;
       xcodebuild -scheme $project-Package -sdk macosx -configuration Release -derivedDataPath build -enableCodeCoverage YES test-without-building;
     fi;
@@ -39,4 +40,3 @@ after_success:
       slather coverage --show      --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
       slather coverage --coveralls --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
     fi;
-
