@@ -17,7 +17,7 @@ import PackageDescription
 
 let package = Package(
     dependencies: [
-        .Package(url: "https://github.com/simexlib/simex.swift.swift.git", majorVersion: 0, minor: 1)
+        .Package(url: "https://github.com/simexlib/simex.swift.git", majorVersion: 0, minor: 1)
     ]
 )
 ```

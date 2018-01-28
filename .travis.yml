@@ -37,6 +37,8 @@ script:
     fi;
 after_success:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
-      slather coverage --show      --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
-      slather coverage --coveralls --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
+      slather coverage --show                                       --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
+      slather coverage --coveralls                                  --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
+      slather coverage --cobertura-xml --output-directory .coverage --scheme $project-Package --configuration Release --binary-basename $project --build-directory build $project.xcodeproj;
+      bash <(curl -s https://codecov.io/bash) -f .coverage/cobertura.xml -X coveragepy -X gcov -X xcode;
     fi;
